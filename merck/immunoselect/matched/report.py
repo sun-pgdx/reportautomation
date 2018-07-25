@@ -138,13 +138,12 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._template_directory = 'templates'
         self._excel_template_name = 'Merck_ImmunoSELECT_Matched_Report_Template.xlsx'
         self._template_file = self._template_directory + '/' + self._excel_template_name
-        self._outfile = self._outdir + self._excel_template_name
+
         self._trigger_file_parser = tp(self._trigger_file)
         self._copy_number_file_parser = cnp(self._trigger_file_parser.getCopyNumberFile())
         self._summarysheet_file_parser = ssp(self._trigger_file_parser.getSummarysheetFile())
-        self._final_peptides_file_parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
-        self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
-        self._neoantigens_reported_file_parser = nrp(self._trigger_file_parser.getNeoantigensReportedFile())
+
+        self._outfile = self._outdir + self._trigger_file_parser.getFinalReportName() + '.xlsx'
 
     def generateReport(self):
         """
@@ -260,6 +259,8 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet_name = 'Somatic mutations'
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
+
+        self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
 
         records = self._combined_coverage_file_parser.getSomaticMutationsSheetRecords()
 
@@ -382,6 +383,8 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
+        self._neoantigens_reported_file_parser = nrp(self._trigger_file_parser.getNeoantigensReportedFile())
+
         record_list = self._neoantigens_reported_file_parser.getRecordList()
 
         current_row = NEOANTIGEN_CANDIDATES_START_ROW
@@ -421,6 +424,8 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet_name = 'Somatic Peptides'
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
+
+        self._final_peptides_file_parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
 
         records = self._final_peptides_file_parser.getSomaticPeptidesSheetRecords()
 
