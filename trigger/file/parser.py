@@ -230,6 +230,9 @@ class Parser(object):
 
         :return:
         """
-        return self._lookup['Source of Normal DNA']
+        if 'Source of Normal DNA' in self._lookup:
+            return self._lookup['Source of Normal DNA']
+        else:
+            return 'N/A'
 
 
