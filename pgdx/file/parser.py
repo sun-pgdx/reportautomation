@@ -26,6 +26,8 @@ class Parser():
                 self._record_count += 1
 
 
+        print("Finished parsing file '%s'" % self._infile)
+
     def getRecordCount(self):
         """
 

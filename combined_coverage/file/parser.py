@@ -1,12 +1,141 @@
+import csv
 import pgdx.file.parser
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+
+# qualified_positions = set((227, 228, 229, 230,231: 'Report: CodonChange',
+# 232: 'Report: AAChange',
+# 233: 'Report: Exon Rank',
+# 234: 'Report: ReportedMutation',
+# 235: 'Report: ReportedConsequence',
+# 236: 'Report: Seq window',
+# 237: 'Report: MutPct',
+# 238: 'Report: 95% Confidence Interval for % Mutant Reads',
+# 244: 'Report: Biologically Significant',
+# 245: 'Report: Clinically Significant',
+# 246: 'Report: Pathway Analysis (GO Molecular Function)',
+# 247: 'Report: Pathway Analysis (GO Biological Process)',
+# 248: 'Report: Pathway Analysis (Additional Information)',
+# 249: 'Report: Samples with the Identical Somatic Mutation',
+# 251: 'Report: Samples with Somatic Mutations in Nearby Amino Acid Residues',
+# 252: 'Report: Gene Reported to be Somatically Mutated in the Following '
+# 'Cancers',
+# 253: 'Report: Position of Mutation Within a Protein Domain',
+# 254: 'Report: Position of Mutation Near to a Protein Domain',
+# 255: 'Report: CHASM'
+# }
+
+qualified_fields = set(('Report: GeneName',
+                        'Report: Description',
+                        'Report: Transcript',
+                        'Report: LookupKey',
+                        'Report: CodonChange',
+                        'Report: AAChange',
+                        'Report: Exon Rank',
+                        'Report: ReportedMutation',
+                        'Report: ReportedConsequence',
+                        'Report: Seq window',
+                        'Report: MutPct',
+                        'Report: 95% Confidence Interval for % Mutant Reads',
+                        'Report: Biologically Significant',
+                        'Report: Clinically Significant',
+                        'Report: Pathway Analysis (GO Molecular Function)',
+                        'Report: Pathway Analysis (GO Biological Process)',
+                        'Report: Pathway Analysis (Additional Information)',
+                        'Report: Samples with the Identical Somatic Mutation',
+                        'Report: Samples with Somatic Mutations in the Same Amino Acid Residue',
+                        'Report: Samples with Somatic Mutations in Nearby Amino Acid Residues',
+                        'Report: Gene Reported to be Somatically Mutated in the Following Cancers',
+                        'Report: Position of Mutation Within a Protein Domain',
+                        'Report: Position of Mutation Near to a Protein Domain',
+                        'Report: CHASM'))
 
 class Parser(pgdx.file.parser.Parser):
     """
-    
+
     """
     def __init__(self, infile):
         """
 
         :param infile:
         """
-        self._infile =  infile
+        self._infile = infile
+        self._record_list = []
+        self._record_count = 0
+        self._position_to_header_lookup = {}
+        self._somatic_mutations_record_list = []
+        self._parse_file()
+
+    def _parse_file(self):
+        """
+
+        :return:
+        """
+
+        with open(self._infile, 'r') as csvfile:
+            reader = csv.reader(csvfile, delimiter='\t')
+
+            row_ctr= 0
+
+            for row in reader:
+
+                row_ctr += 1
+
+                if row_ctr == 1:
+                    # Processing the header
+                    header_ctr = 0
+                    for header in row:
+                        if header in qualified_fields:
+                            self._position_to_header_lookup[header_ctr] = header
+                        header_ctr += 1
+                    print("Processed the header row for trigger file '%s'" % self._infile)
+                    #pp.pprint(self._position_to_header_lookup)
+                else:
+                    # Processing a non-header row
+
+                    smr= []
+                    smr.append(row[227])
+                    smr.append(row[228])
+                    smr.append(row[229])
+                    smr.append(row[230])
+                    smr.append(row[231])
+                    smr.append(row[232])
+                    smr.append(row[233])
+                    smr.append(row[234])
+                    smr.append(row[235])
+                    smr.append(row[236])
+                    smr.append(row[237])
+                    smr.append(row[238])
+                    smr.append(row[244])
+                    smr.append(row[245])
+                    smr.append(row[246])
+                    smr.append(row[247])
+                    smr.append(row[248])
+                    smr.append(row[249])
+                    smr.append(row[251])
+                    smr.append(row[252])
+                    smr.append(row[253])
+                    smr.append(row[254])
+                    smr.append(row[255])
+
+                    # field_ctr = 0
+                    # for field in row:
+                    #     if field_ctr in self._position_to_header_lookup:
+                    #         # this is a field we're interested in
+                    #         somatic_mutation_record.append(field)
+                    #
+                    #     field_ctr += 1
+
+                    self._somatic_mutations_record_list.append(smr)
+
+            # pp.pprint(self._somatic_mutations_record_list)
+            print("Processed '%d' rows in combined coverage file '%s'" % (row_ctr, self._infile))
+
+
+
+    def getSomaticMutationsSheetRecords(self):
+        """
+
+        :return: list of list
+        """
+        return self._somatic_mutations_record_list

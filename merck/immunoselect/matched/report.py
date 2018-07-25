@@ -3,6 +3,7 @@ from trigger.file.parser import Parser as tp
 from summarysheet.file.parser import Parser as ssp
 from copy_number.file.parser import Parser as cnp
 from final_peptides.file.parser import Parser as fpp
+from combined_coverage.file.parser import Parser as ccp
 
 import openpyxl
 
@@ -87,6 +88,37 @@ SOMATIC_PEPTIDES_START_ROW = 10
 
 
 
+# Somatic mutations sheet
+
+SOMATIC_MUTATIONS_START_ROW = 10
+
+SOMATIC_MUTATIONS_GEN_SYM = 'A'
+SOMATIC_MUTATIONS_GEN_DES = 'B'
+SOMATIC_MUTATIONS_TRA_ACC = 'C'
+SOMATIC_MUTATIONS_NUC_GEN = 'D'
+SOMATIC_MUTATIONS_NUC_COD = 'E'
+SOMATIC_MUTATIONS_AMI_ACI = 'F'
+SOMATIC_MUTATIONS_EXO = 'G'
+SOMATIC_MUTATIONS_MUT_TYP = 'H'
+SOMATIC_MUTATIONS_CONSEQ  = 'I'
+SOMATIC_MUTATIONS_SEQ_CON = 'J'
+SOMATIC_MUTATIONS_MUT_REA = 'K'
+SOMATIC_MUTATIONS_CON_INT = 'L'
+SOMATIC_MUTATIONS_BIO_REL = 'M'
+SOMATIC_MUTATIONS_CLI_REL_GEN = 'N'
+SOMATIC_MUTATIONS_PAT_ANA_GO_MOL_FUN = 'O'
+SOMATIC_MUTATIONS_PAT_ANA_GO_BIO_FUN = 'P'
+SOMATIC_MUTATIONS_PAT_ANA_GO_ADD_INF = 'Q'
+SOMATIC_MUTATIONS_REP_SAM_DE_SOM_MUT = 'R'
+SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_SAM_AAR = 'S'
+SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_NEA_AAR = 'T'
+SOMATIC_MUTATIONS_GEN_REP = 'U'
+SOMATIC_MUTATIONS_POS_MUT_PRO_DOM = 'V'
+SOMATIC_MUTATIONS_POS_MUT_NEA_PRO_DOM = 'W'
+SOMATIC_MUTATIONS_CHASM_SCORE = 'X'
+
+
+
 class ReportGenerator(pgdx.report.ReportGenerator):
     """
     
@@ -106,6 +138,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._copy_number_file_parser = cnp(self._trigger_file_parser.getCopyNumberFile())
         self._summarysheet_file_parser = ssp(self._trigger_file_parser.getSummarysheetFile())
         self._final_peptides_file_parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
+        self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
 
     def generateReport(self):
         """
@@ -222,7 +255,72 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
-        print("Wrote to sheet '%s'" % sheet_name)
+        records = self._combined_coverage_file_parser.getSomaticMutationsSheetRecords()
+
+        current_row = SOMATIC_MUTATIONS_START_ROW
+
+        record_ctr = 0
+
+        for record in records:
+
+            if record_ctr != 0:
+                # do not want to write the header of the data file to this sheet
+
+                a = SOMATIC_MUTATIONS_GEN_SYM + str(current_row)
+                b = SOMATIC_MUTATIONS_GEN_DES + str(current_row)
+                c = SOMATIC_MUTATIONS_TRA_ACC + str(current_row)
+                d = SOMATIC_MUTATIONS_NUC_GEN + str(current_row)
+                e = SOMATIC_MUTATIONS_NUC_COD + str(current_row)
+                f = SOMATIC_MUTATIONS_AMI_ACI + str(current_row)
+                g = SOMATIC_MUTATIONS_EXO + str(current_row)
+                h = SOMATIC_MUTATIONS_MUT_TYP + str(current_row)
+                i = SOMATIC_MUTATIONS_CONSEQ + str(current_row)
+                j = SOMATIC_MUTATIONS_SEQ_CON + str(current_row)
+                k = SOMATIC_MUTATIONS_MUT_REA + str(current_row)
+                l = SOMATIC_MUTATIONS_CON_INT + str(current_row)
+                m = SOMATIC_MUTATIONS_BIO_REL + str(current_row)
+                n = SOMATIC_MUTATIONS_CLI_REL_GEN + str(current_row)
+                o = SOMATIC_MUTATIONS_PAT_ANA_GO_MOL_FUN + str(current_row)
+                p = SOMATIC_MUTATIONS_PAT_ANA_GO_BIO_FUN + str(current_row)
+                q = SOMATIC_MUTATIONS_PAT_ANA_GO_ADD_INF + str(current_row)
+                r = SOMATIC_MUTATIONS_REP_SAM_DE_SOM_MUT + str(current_row)
+                s = SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_SAM_AAR + str(current_row)
+                t = SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_NEA_AAR + str(current_row)
+                u = SOMATIC_MUTATIONS_GEN_REP + str(current_row)
+                v = SOMATIC_MUTATIONS_POS_MUT_PRO_DOM + str(current_row)
+                w = SOMATIC_MUTATIONS_POS_MUT_NEA_PRO_DOM + str(current_row)
+                x = SOMATIC_MUTATIONS_CHASM_SCORE + str(current_row)
+
+                sheet[a] = record[0]
+                sheet[b] = record[1]
+                sheet[c] = record[2]
+                sheet[d] = record[3]
+                sheet[e] = record[4]
+                sheet[f] = record[5]
+                sheet[g] = record[6]
+                sheet[h] = record[7]
+                sheet[i] = record[8]
+                sheet[j] = record[9]
+                sheet[k] = record[10]
+                sheet[l] = record[11]
+                sheet[m] = record[12]
+                sheet[n] = record[13]
+                sheet[o] = record[14]
+                sheet[p] = record[15]
+                sheet[q] = record[16]
+                sheet[r] = record[17]
+                sheet[s] = record[18]
+                sheet[t] = record[19]
+                sheet[u] = record[20]
+                sheet[v] = record[21]
+                sheet[w] = record[22]
+                sheet[x] = record[23]
+
+                current_row += 1
+
+            record_ctr += 1
+
+        print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
 
 
     def _write_copy_number_sheet(self):
@@ -242,7 +340,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         for record in records:
 
-            if record_ctr == 0:
+            if record_ctr != 0:
                 # do not want to write the header of the data file to this sheet
 
                 a = COPY_NUMBER_GEN_SYM_COL + str(current_row)
