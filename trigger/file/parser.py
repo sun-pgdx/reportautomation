@@ -48,3 +48,188 @@ class Parser(object):
         """
         # pp.pprint(self._lookup)
         return self._lookup['report_type']
+
+    def getClientName(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Client Name']
+
+    def getDiagnosis(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Diagnosis']
+
+    def getPatientMedicalRecord(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Patient Medical Record']
+
+    def getPatientName(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Patient Name']
+
+    def getPercentTumor(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Percent Tumor']
+
+    def getPrimaryTumorSite(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Primar Tumor Site']
+
+    def getProjectName(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Project Name']
+
+    def getProtocol(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Protocol']
+
+    def getSampleType(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Sample Type']
+
+    def getSpecimenNumber(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Specimen #']
+
+    def getTestDisposition(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Test Disposition']
+
+
+    def getTestsOrdered(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Tests Ordered']
+
+    def getPGDXId(self):
+        """
+
+        :return:
+        """
+        return self._lookup['PGDXID']
+
+    def getSummarysheetFile(self):
+        """
+
+        :return:
+        """
+        return self._lookup['summarysheet']
+
+    def getNeoantigensReportedFile(self):
+        """
+
+        :return:
+        """
+        return self._lookup['neoantigens_reported']
+
+    def getFinalPeptidesFile(self):
+        """
+
+        :return:
+        """
+        return self._lookup['final_peptides']
+
+    def getCombinedCoverageFile(self):
+        """
+
+        :return:
+        """
+        return self._lookup['combined_coverage']
+
+    def getCopyNumberFile(self):
+        """
+
+        :return:
+        """
+        return self._lookup['copy_number']
+
+    def getFinalReportPath(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Final Report Path']
+
+    def getFinalReportName(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Final Report Name']
+
+    def getTemplateFilePath(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Template File Path']
+
+    def getReportId(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Report ID']
+
+    def getRandomizationNumber(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Randomization ID']
+
+    def getScreeningNumber(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Screening ID']
+
+    def getTrialId(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Trial ID']
+
+    def getSourceOfNormalDNA(self):
+        """
+
+        :return:
+        """
+        return self._lookup['Source of Normal DNA']
+
+
