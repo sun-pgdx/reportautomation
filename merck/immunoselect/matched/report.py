@@ -255,12 +255,12 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet[RESULT_SUMMARY_AVE_NUM_DIS_HIG_QUA_SEQ_EAC_BAS_NORMAL] = self._summarysheet_file_parser.getValueByLocation(23,2)
 
         # Germline SNPs present
-        sheet[RESULT_SUMMARY_GER_SNP_PRE_TUMOR] = self._summarysheet_file_parser.getValueByLocation(1,33)
-        sheet[RESULT_SUMMARY_GER_SNP_PRE_NORMAL] = self._summarysheet_file_parser.getValueByLocation(2,33)
+        sheet[RESULT_SUMMARY_GER_SNP_PRE_TUMOR] = self._summarysheet_file_parser.getValueByLocation(33,1)
+        sheet[RESULT_SUMMARY_GER_SNP_PRE_NORMAL] = self._summarysheet_file_parser.getValueByLocation(33,2)
 
         # Percent T/N Matching
-        sheet[RESULT_SUMMARY_PRE_TN_MAT_TUMOR] = self._summarysheet_file_parser.getValueByLocation(2,35)
-        sheet[RESULT_SUMMARY_PRE_TN_MAT_NORMAL] = 'N/A'
+        sheet[RESULT_SUMMARY_PRE_TN_MAT_TUMOR] = self._summarysheet_file_parser.getValueByLocation(35,1)
+        sheet[RESULT_SUMMARY_PRE_TN_MAT_NORMAL] = self._summarysheet_file_parser.getValueByLocation(35,2)
 
         print("Wrote to sheet '%s'" % sheet_name)
 
