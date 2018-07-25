@@ -31,7 +31,7 @@ class Parser(object):
                     for field in row:
                         self._position_to_header_lookup[field_ctr] = field
                         field_ctr += 1
-                    pp.pprint(self._position_to_header_lookup)
+                    # pp.pprint(self._position_to_header_lookup)
                     print("Processed the header row for trigger file '%s'" % self._infile)
                 else:
                     field_ctr = 0
@@ -46,5 +46,5 @@ class Parser(object):
 
         :return: self._report_type (string)
         """
-        pp.pprint(self._lookup)
+        # pp.pprint(self._lookup)
         return self._lookup['report_type']

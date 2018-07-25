@@ -1,5 +1,8 @@
 venv
+templates/
 examples/
 .idea
 *~
 *.bak
+__pycache__
+*.pyc
