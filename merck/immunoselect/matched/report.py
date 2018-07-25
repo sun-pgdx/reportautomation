@@ -1,3 +1,7 @@
+import sys
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+
 import pgdx.report
 from trigger.file.parser import Parser as tp
 from summarysheet.file.parser import Parser as ssp
@@ -288,60 +292,60 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         for record in records:
 
-            if record_ctr != 0:
-                # do not want to write the header of the data file to this sheet
+            pp.pprint(record)
+            # sys.exit(1)
 
-                a = SOMATIC_MUTATIONS_GEN_SYM + str(current_row)
-                b = SOMATIC_MUTATIONS_GEN_DES + str(current_row)
-                c = SOMATIC_MUTATIONS_TRA_ACC + str(current_row)
-                d = SOMATIC_MUTATIONS_NUC_GEN + str(current_row)
-                e = SOMATIC_MUTATIONS_NUC_COD + str(current_row)
-                f = SOMATIC_MUTATIONS_AMI_ACI + str(current_row)
-                g = SOMATIC_MUTATIONS_EXO + str(current_row)
-                h = SOMATIC_MUTATIONS_MUT_TYP + str(current_row)
-                i = SOMATIC_MUTATIONS_CONSEQ + str(current_row)
-                j = SOMATIC_MUTATIONS_SEQ_CON + str(current_row)
-                k = SOMATIC_MUTATIONS_MUT_REA + str(current_row)
-                l = SOMATIC_MUTATIONS_CON_INT + str(current_row)
-                m = SOMATIC_MUTATIONS_BIO_REL + str(current_row)
-                n = SOMATIC_MUTATIONS_CLI_REL_GEN + str(current_row)
-                o = SOMATIC_MUTATIONS_PAT_ANA_GO_MOL_FUN + str(current_row)
-                p = SOMATIC_MUTATIONS_PAT_ANA_GO_BIO_FUN + str(current_row)
-                q = SOMATIC_MUTATIONS_PAT_ANA_GO_ADD_INF + str(current_row)
-                r = SOMATIC_MUTATIONS_REP_SAM_DE_SOM_MUT + str(current_row)
-                s = SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_SAM_AAR + str(current_row)
-                t = SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_NEA_AAR + str(current_row)
-                u = SOMATIC_MUTATIONS_GEN_REP + str(current_row)
-                v = SOMATIC_MUTATIONS_POS_MUT_PRO_DOM + str(current_row)
-                w = SOMATIC_MUTATIONS_POS_MUT_NEA_PRO_DOM + str(current_row)
-                x = SOMATIC_MUTATIONS_CHASM_SCORE + str(current_row)
+            a = SOMATIC_MUTATIONS_GEN_SYM + str(current_row)
+            b = SOMATIC_MUTATIONS_GEN_DES + str(current_row)
+            c = SOMATIC_MUTATIONS_TRA_ACC + str(current_row)
+            d = SOMATIC_MUTATIONS_NUC_GEN + str(current_row)
+            e = SOMATIC_MUTATIONS_NUC_COD + str(current_row)
+            f = SOMATIC_MUTATIONS_AMI_ACI + str(current_row)
+            g = SOMATIC_MUTATIONS_EXO + str(current_row)
+            h = SOMATIC_MUTATIONS_MUT_TYP + str(current_row)
+            i = SOMATIC_MUTATIONS_CONSEQ + str(current_row)
+            j = SOMATIC_MUTATIONS_SEQ_CON + str(current_row)
+            k = SOMATIC_MUTATIONS_MUT_REA + str(current_row)
+            l = SOMATIC_MUTATIONS_CON_INT + str(current_row)
+            m = SOMATIC_MUTATIONS_BIO_REL + str(current_row)
+            n = SOMATIC_MUTATIONS_CLI_REL_GEN + str(current_row)
+            o = SOMATIC_MUTATIONS_PAT_ANA_GO_MOL_FUN + str(current_row)
+            p = SOMATIC_MUTATIONS_PAT_ANA_GO_BIO_FUN + str(current_row)
+            q = SOMATIC_MUTATIONS_PAT_ANA_GO_ADD_INF + str(current_row)
+            r = SOMATIC_MUTATIONS_REP_SAM_DE_SOM_MUT + str(current_row)
+            s = SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_SAM_AAR + str(current_row)
+            t = SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_NEA_AAR + str(current_row)
+            u = SOMATIC_MUTATIONS_GEN_REP + str(current_row)
+            v = SOMATIC_MUTATIONS_POS_MUT_PRO_DOM + str(current_row)
+            w = SOMATIC_MUTATIONS_POS_MUT_NEA_PRO_DOM + str(current_row)
+            x = SOMATIC_MUTATIONS_CHASM_SCORE + str(current_row)
 
-                sheet[a] = record[0]
-                sheet[b] = record[1]
-                sheet[c] = record[2]
-                sheet[d] = record[3]
-                sheet[e] = record[4]
-                sheet[f] = record[5]
-                sheet[g] = record[6]
-                sheet[h] = record[7]
-                sheet[i] = record[8]
-                sheet[j] = record[9]
-                sheet[k] = record[10]
-                sheet[l] = record[11]
-                sheet[m] = record[12]
-                sheet[n] = record[13]
-                sheet[o] = record[14]
-                sheet[p] = record[15]
-                sheet[q] = record[16]
-                sheet[r] = record[17]
-                sheet[s] = record[18]
-                sheet[t] = record[19]
-                sheet[u] = record[20]
-                sheet[v] = record[21]
-                sheet[w] = record[22]
-                # sheet[x] = record[23]
+            sheet[a] = record[0]
+            sheet[b] = record[1]
+            sheet[c] = record[2]
+            sheet[d] = record[3]
+            sheet[e] = record[4]
+            sheet[f] = record[5]
+            sheet[g] = record[6]
+            sheet[h] = record[7]
+            sheet[i] = record[8]
+            sheet[j] = record[9]
+            sheet[k] = record[10]
+            sheet[l] = record[11]
+            sheet[m] = record[12]
+            sheet[n] = record[13]
+            sheet[o] = record[14]
+            sheet[p] = record[15]
+            sheet[q] = record[16]
+            sheet[r] = record[17]
+            sheet[s] = record[18]
+            sheet[t] = record[19]
+            sheet[u] = record[20]
+            sheet[v] = record[21]
+            sheet[w] = record[22]
+            # sheet[x] = record[23]
 
-                current_row += 1
+            current_row += 1
 
             record_ctr += 1
 
