@@ -19,6 +19,9 @@ class Parser():
 
         :return:
         """
+
+        print("Will attempt to parser file '%s'" % self._infile)
+
         with open(self._infile, 'r') as csvfile:
             reader = csv.reader(csvfile, delimiter='\t')
             for row in reader:
@@ -26,7 +29,7 @@ class Parser():
                 self._record_count += 1
 
 
-        print("Finished parsing file '%s'" % self._infile)
+
 
     def getRecordCount(self):
         """
