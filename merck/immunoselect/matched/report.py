@@ -1,4 +1,5 @@
 import pgdx.report
+from trigger.file.parser import Parser as tp
 
 import openpyxl
 
@@ -29,6 +30,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._excel_template_name = 'Merck_ImmunoSELECT_Matched_Report_Template.xlsx'
         self._template_file = self._template_directory + '/' + self._excel_template_name
         self._outfile = self._outdir + self._excel_template_name
+        self._trigger_file_parser = tp(self._trigger_file)
 
     def generateReport(self):
         """
@@ -54,7 +56,17 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
-        sheet['A14'] = "test"
+        sheet[OVERVIEW_CASE_ID] = self._trigger_file_parser.getPGDXId() + ' - ' + self._trigger_file_parser.getSpecimenNumber()
+        sheet[OVERVIEW_DATE] = '25JUL2018'
+        sheet[OVERVIEW_TUMOR_TYPE] = self._trigger_file_parser.getDiagnosis()
+        sheet[OVERVIEW_TUMOR_LOCATION] = self._trigger_file_parser.getPrimaryTumorSite()
+        sheet[OVERVIEW_SAMPLE_TYPE] = self._trigger_file_parser.getSampleType()
+        sheet[OVERVIEW_PATHOLOGICAL_TUMOR_PURITY] = self._trigger_file_parser.getPercentTumor()
+        sheet[OVERVIEW_MUTATION_BASE_TUMOR_PURITY] = 'TBD'
+        sheet[OVERVIEW_SOURCE_OF_NORMAL_DNA] = self._trigger_file_parser.getSourceOfNormalDNA()
+        sheet[OVERVIEW_RANDOMIZATION_NUMBER] = self._trigger_file_parser.getRandomizationNumber()
+        sheet[OVERVIEW_SCREENING_NUMBER] = self._trigger_file_parser.getScreeningNumber()
+        sheet[OVERVIEW_TRIAL_ID] = self._trigger_file_parser.getTrialId()
 
         print("Wrote to sheet '%s'" % sheet_name)
 
