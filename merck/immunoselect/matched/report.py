@@ -2,6 +2,7 @@ import pgdx.report
 from trigger.file.parser import Parser as tp
 from summarysheet.file.parser import Parser as ssp
 from copy_number.file.parser import Parser as cnp
+from final_peptides.file.parser import Parser as fpp
 
 import openpyxl
 
@@ -75,14 +76,14 @@ COPY_NUMBER_NUC_POS_COL = 'D'
 COPY_NUMBER_FOL_AMP_COL = 'E'
 COPY_NUMBER_MUT_TYP_COL = 'F'
 
-COPY_NUMBER_ROW_START = 10
+COPY_NUMBER_START_ROW = 10
 
 # Somatic Peptides sheet
 SOMATIC_PEPTIDES_GEN_SYM = 'A'
 SOMATIC_PEPTIDES_MUT_POS = 'B'
 SOMATIC_PEPTIDES_MUT_PEP = 'C'
 
-SOMATIC_PEPTIDES_ROW_START = 10
+SOMATIC_PEPTIDES_START_ROW = 10
 
 
 
@@ -105,6 +106,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._date = '25JUL2018'
         self._copy_number_file_parser = cnp(self._trigger_file_parser.getCopyNumberFile())
         self._summarysheet_file_parser = ssp(self._trigger_file_parser.getSummarysheetFile())
+        self._final_peptides_file_parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
 
     def generateReport(self):
         """
@@ -217,6 +219,11 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
+        sheet_name = 'Somatic mutations'
+
+        sheet = self._xfile.get_sheet_by_name(sheet_name)
+
+        print("Wrote to sheet '%s'" % sheet_name)
 
 
     def _write_copy_number_sheet(self):
@@ -224,7 +231,43 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
-        pass
+        sheet_name = 'Copy number'
+
+        sheet = self._xfile.get_sheet_by_name(sheet_name)
+
+        records = self._copy_number_file_parser.getCopyNumberSheetRecords()
+
+        current_row =  COPY_NUMBER_START_ROW
+
+        record_ctr = 0
+
+        for record in records:
+
+            if record_ctr == 0:
+                # do not want to write the header of the data file to this sheet
+                continue
+
+            a = COPY_NUMBER_GEN_SYM_COL + str(current_row)
+            b = COPY_NUMBER_GEN_DES_COL + str(current_row)
+            c = COPY_NUMBER_GEN_ACC_COL + str(current_row)
+            d = COPY_NUMBER_NUC_POS_COL + str(current_row)
+            e = COPY_NUMBER_FOL_AMP_COL + str(current_row)
+            f = COPY_NUMBER_MUT_TYP_COL + str(current_row)
+
+            sheet[a] = record[0]
+            sheet[b] = record[1]
+            sheet[c] = record[2]
+            sheet[d] = record[3]
+            sheet[e] = record[4]
+            sheet[f] = record[5]
+
+            current_row += 1
+
+            record_ctr += 1
+
+        print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
+
+
 
     def _write_neoantigen_candidates_sheet(self):
         """
@@ -233,9 +276,48 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         """
         pass
 
+        sheet_name = 'Neoantigen Candidates'
+
+        sheet = self._xfile.get_sheet_by_name(sheet_name)
+
+        print("Wrote to sheet '%s'" % sheet_name)
+
+
     def _write_somatic_peptides_sheet(self):
         """
 
         :return:
         """
         pass
+
+        sheet_name = 'Somatic Peptides'
+
+        sheet = self._xfile.get_sheet_by_name(sheet_name)
+
+        records = self._final_peptides_file_parser.getSomaticPeptidesSheetRecords()
+
+        current_row = SOMATIC_PEPTIDES_START_ROW
+
+        record_ctr = 0
+
+        for record in records:
+
+            if record_ctr == 0:
+                # do not want to write the header of the data file to this sheet
+                continue
+
+            a = SOMATIC_PEPTIDES_GEN_SYM + str(current_row)
+            b = SOMATIC_PEPTIDES_MUT_POS + str(current_row)
+            c = SOMATIC_PEPTIDES_MUT_PEP + str(current_row)
+
+            sheet[a] = record[0]
+            sheet[b] = record[1]
+            sheet[c] = record[2]
+
+            current_row += 1
+
+            record_ctr += 1
+
+        print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
+
+

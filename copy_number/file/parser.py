@@ -13,3 +13,11 @@ class Parser(pgdx.file.parser.Parser):
         self._record_list = []
         self._record_count = 0
         self._parse_file()
+
+
+    def getCopyNumberSheetRecords(self):
+        """
+
+        :return: list of list
+        """
+        return self._record_list
