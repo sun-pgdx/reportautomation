@@ -12,14 +12,14 @@ class Parser():
         self._infile = infile
         self._record_list = []
         self._record_count = 0
-
+        self._parse_file()
 
     def _parse_file(self):
         """
 
         :return:
         """
-        with open(self._infile, 'rb') as csvfile:
+        with open(self._infile, 'r') as csvfile:
             reader = csv.reader(csvfile, delimiter='\t')
             for row in reader:
                 self._record_list.append(row)

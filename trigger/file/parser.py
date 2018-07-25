@@ -209,14 +209,14 @@ class Parser(object):
 
         :return:
         """
-        return self._lookup['Randomization ID']
+        return self._lookup['Randomization Number']
 
     def getScreeningNumber(self):
         """
 
         :return:
         """
-        return self._lookup['Screening ID']
+        return self._lookup['Screening Number']
 
     def getTrialId(self):
         """
