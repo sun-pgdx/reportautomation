@@ -48,10 +48,10 @@ def main(trigger_file, verbose, outdir):
 
     repgen = None
 
-    if report_type == 'Merck_ImmunoSELECT_Matched' or report_tpe == 'Merck ImmunoSELECT Matched':
+    if report_type == 'Merck_ImmunoSELECT_Matched' or report_type == 'Merck ImmunoSELECT Matched':
         repgen = mimRepGen(trigger_file, outdir)
 
-    elif report_type == 'Merck ImmunoSELECT Unmatched':
+    elif report_type == 'Merck_ImmunoSELECT_Unmatched' or report_type == 'Merck ImmunoSELECT Unmatched':
         repgen = miumRepGen(trigger_file, outdir)
 
     elif report_type == 'Victor ImmunoSELECT Matched':
