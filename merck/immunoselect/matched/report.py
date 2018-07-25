@@ -2,6 +2,18 @@ import pgdx.report
 
 import openpyxl
 
+OVERVIEW_CASE_ID = 'A5'
+OVERVIEW_DATE = 'C5'
+OVERVIEW_TUMOR_TYPE = 'B15'
+OVERVIEW_TUMOR_LOCATION = 'B16'
+OVERVIEW_SAMPLE_TYPE = 'B17'
+OVERVIEW_PATHOLOGICAL_TUMOR_PURITY = 'B18'
+OVERVIEW_MUTATION_BASE_TUMOR_PURITY = 'B19'
+OVERVIEW_SOURCE_OF_NORMAL_DNA = 'B20'
+OVERVIEW_RANDOMIZATION_NUMBER = 'B30'
+OVERVIEW_TRIAL_ID = 'B31'
+OVERVIEW_SCREENING_NUMBER = 'B32'
+
 class ReportGenerator(pgdx.report.ReportGenerator):
     """
     
@@ -56,7 +68,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet_name = 'Results summary'
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
-        
+
         sheet['A14'] = "test"
 
         print("Wrote to sheet '%s'" % sheet_name)
