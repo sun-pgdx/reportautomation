@@ -64,6 +64,28 @@ RESULT_SUMMARY_GER_SNP_PRE_NORMAL = 'C26'
 RESULT_SUMMARY_PRE_TN_MAT_TUMOR = 'B27'
 RESULT_SUMMARY_PRE_TN_MAT_NORMAL = 'C27'
 
+# Copy number sheet
+COPY_NUMBER_CASE_ID = 'A5'
+COPY_NUMBER_DATE = 'C5'
+
+COPY_NUMBER_GEN_SYM_COL = 'A'
+COPY_NUMBER_GEN_DES_COL = 'B'
+COPY_NUMBER_GEN_ACC_COL = 'C'
+COPY_NUMBER_NUC_POS_COL = 'D'
+COPY_NUMBER_FOL_AMP_COL = 'E'
+COPY_NUMBER_MUT_TYP_COL = 'F'
+
+COPY_NUMBER_ROW_START = 10
+
+# Somatic Peptides sheet
+SOMATIC_PEPTIDES_GEN_SYM = 'A'
+SOMATIC_PEPTIDES_MUT_POS = 'B'
+SOMATIC_PEPTIDES_MUT_PEP = 'C'
+
+SOMATIC_PEPTIDES_ROW_START = 10
+
+
+
 class ReportGenerator(pgdx.report.ReportGenerator):
     """
     
@@ -94,6 +116,14 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._write_overview_sheet()
 
         self._write_results_summary_sheet()
+
+        self._write_somatic_mutations_sheet()
+
+        self._write_copy_number_sheet()
+
+        self._write_neoantigen_candidates_sheet()
+
+        self._write_somatic_peptides_sheet()
 
         self._xfile.save(self._outfile)
 
@@ -181,3 +211,31 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         print("Wrote to sheet '%s'" % sheet_name)
 
+
+    def _write_somatic_mutations_sheet(self):
+        """
+
+        :return:
+        """
+
+
+    def _write_copy_number_sheet(self):
+        """
+
+        :return:
+        """
+        pass
+
+    def _write_neoantigen_candidates_sheet(self):
+        """
+
+        :return:
+        """
+        pass
+
+    def _write_somatic_peptides_sheet(self):
+        """
+
+        :return:
+        """
+        pass
