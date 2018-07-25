@@ -22,15 +22,9 @@ class Parser(pgdx.file.parser.Parser):
         :param column_num:
         :return:
         """
+        row = self._record_list[row_num]
 
-        # Excel vs. Python
-        rn = row_num - 1
-        cn = column_num = 1
-
-
-        row = self._record_list[rn]
-
-        val = row[cn]
+        val = row[column_num]
 
         return val
 
