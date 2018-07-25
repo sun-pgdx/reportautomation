@@ -89,7 +89,7 @@ class Parser(object):
 
         :return:
         """
-        return self._lookup['Primar Tumor Site']
+        return self._lookup['Primary Tumor Site']
 
     def getProjectName(self):
         """
