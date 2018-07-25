@@ -4,6 +4,7 @@ from summarysheet.file.parser import Parser as ssp
 from copy_number.file.parser import Parser as cnp
 from final_peptides.file.parser import Parser as fpp
 from combined_coverage.file.parser import Parser as ccp
+from neoantigens_reported.file.parser import Parser as nrp
 
 import openpyxl
 
@@ -118,6 +119,10 @@ SOMATIC_MUTATIONS_POS_MUT_NEA_PRO_DOM = 'W'
 SOMATIC_MUTATIONS_CHASM_SCORE = 'X'
 
 
+# Neoantigen Candidates sheet
+NEOANTIGEN_CANDIDATES_START_ROW = 10;
+
+NEOANTIGEN_CANDIDATES_COLUMNS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BW','BX','BY','BZ','CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CW','CX','CY','CZ']
 
 class ReportGenerator(pgdx.report.ReportGenerator):
     """
@@ -139,6 +144,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._summarysheet_file_parser = ssp(self._trigger_file_parser.getSummarysheetFile())
         self._final_peptides_file_parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
         self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
+        self._neoantigens_reported_file_parser = nrp(self._trigger_file_parser.getNeoantigensReportedFile())
 
     def generateReport(self):
         """
@@ -314,7 +320,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
                 sheet[u] = record[20]
                 sheet[v] = record[21]
                 sheet[w] = record[22]
-                sheet[x] = record[23]
+                # sheet[x] = record[23]
 
                 current_row += 1
 
@@ -376,7 +382,33 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
-        print("Wrote to sheet '%s'" % sheet_name)
+        record_list = self._neoantigens_reported_file_parser.getRecordList()
+
+        current_row = NEOANTIGEN_CANDIDATES_START_ROW
+
+        record_ctr = 0
+
+        for record in record_list:
+
+            if record_ctr != 0:
+                # do not want to write the header of the data file to this sheet
+
+                record.pop(0) # remove the first element which is the PGDX identifier
+
+                # num_fields = len(record)
+                field_ctr = 0
+                for field in record:
+                    location = NEOANTIGEN_CANDIDATES_COLUMNS[field_ctr]
+                    cell_location = location + str(current_row)
+                    sheet[cell_location] = field
+                    field_ctr += 1
+
+                current_row += 1
+
+            record_ctr += 1
+
+        print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
+
 
 
     def _write_somatic_peptides_sheet(self):
