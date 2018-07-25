@@ -242,11 +242,11 @@ class Parser(object):
 
         :return:
         """
-        if 'Report Date' in self._lookup:
-            return self._lookup['Report Date']
-
-        else:
+        if not 'Report Date' in self._lookup:
             self._lookup['Report Date'] = datetime.datetime.today().strftime('%m/%d/%Y')
+
+        return self._lookup['Report Date']
+
 
 
 
