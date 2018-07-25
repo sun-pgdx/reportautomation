@@ -10,6 +10,7 @@ import openpyxl
 
 OVERVIEW_CASE_ID = 'A5'
 OVERVIEW_DATE = 'C5'
+
 OVERVIEW_TUMOR_TYPE = 'B15'
 OVERVIEW_TUMOR_LOCATION = 'B16'
 OVERVIEW_SAMPLE_TYPE = 'B17'
@@ -20,6 +21,7 @@ OVERVIEW_RANDOMIZATION_NUMBER = 'B30'
 OVERVIEW_TRIAL_ID = 'B31'
 OVERVIEW_SCREENING_NUMBER = 'B32'
 
+# Results summary sheet
 RESULTS_SUMMARY_CASE_ID = 'A5'
 RESULTS_SUMMARY_DATE = 'C5'
 
@@ -69,7 +71,7 @@ RESULT_SUMMARY_PRE_TN_MAT_NORMAL = 'C27'
 
 # Copy number sheet
 COPY_NUMBER_CASE_ID = 'A5'
-COPY_NUMBER_DATE = 'C5'
+COPY_NUMBER_DATE = 'F5'
 
 COPY_NUMBER_GEN_SYM_COL = 'A'
 COPY_NUMBER_GEN_DES_COL = 'B'
@@ -87,9 +89,13 @@ SOMATIC_PEPTIDES_MUT_PEP = 'C'
 
 SOMATIC_PEPTIDES_START_ROW = 10
 
-
+SOMATIC_PEPTIDES_CASE_ID = 'A5'
+SOMATIC_PEPTIDES_DATE = 'C5'
 
 # Somatic mutations sheet
+
+SOMATIC_MUTATIONS_CASE_ID = 'A5'
+SOMATIC_MUTATIONS_DATE = 'X5'
 
 SOMATIC_MUTATIONS_START_ROW = 10
 
@@ -122,6 +128,9 @@ SOMATIC_MUTATIONS_CHASM_SCORE = 'X'
 # Neoantigen Candidates sheet
 NEOANTIGEN_CANDIDATES_START_ROW = 10;
 
+NEOANTIGEN_CANDIDATES_CASE_ID = 'A5'
+NEOANTIGEN_CANDIDATES_DATE = 'CD5'
+
 NEOANTIGEN_CANDIDATES_COLUMNS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BW','BX','BY','BZ','CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CW','CX','CY','CZ']
 
 class ReportGenerator(pgdx.report.ReportGenerator):
@@ -150,6 +159,11 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
+
+        self._case_id = 'Case ID: ' + self._trigger_file_parser.getPGDXId() + ' - ' + self._trigger_file_parser.getSpecimenNumber()
+
+        self._date = 'Date: ' + str(self._trigger_file_parser.getDate())
+
         self._xfile = openpyxl.load_workbook(self._template_file)
 
         self._write_overview_sheet()
@@ -177,8 +191,8 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
-        sheet[OVERVIEW_CASE_ID] = self._trigger_file_parser.getPGDXId() + ' - ' + self._trigger_file_parser.getSpecimenNumber()
-        sheet[OVERVIEW_DATE] = self._trigger_file_parser.getDate()
+        sheet[OVERVIEW_CASE_ID] = self._case_id
+        sheet[OVERVIEW_DATE] = self._date
         sheet[OVERVIEW_TUMOR_TYPE] = self._trigger_file_parser.getDiagnosis()
         sheet[OVERVIEW_TUMOR_LOCATION] = self._trigger_file_parser.getPrimaryTumorSite()
         sheet[OVERVIEW_SAMPLE_TYPE] = self._trigger_file_parser.getSampleType()
@@ -200,9 +214,9 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
-        sheet[RESULTS_SUMMARY_CASE_ID] = self._trigger_file_parser.getPGDXId() + ' - ' + self._trigger_file_parser.getSpecimenNumber()
+        sheet[RESULTS_SUMMARY_CASE_ID] = self._case_id
 
-        sheet[RESULTS_SUMMARY_DATE] = self._trigger_file_parser.getDate()
+        sheet[RESULTS_SUMMARY_DATE] = self._date
 
         # Number of somatic sequence alterations identified
         sheet[RESULT_SUMMARY_NUM_SOM_SEQ_ALT_IDE_TUMOR] = self._summarysheet_file_parser.getRecordCount()
@@ -259,6 +273,10 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet_name = 'Somatic mutations'
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
+
+        sheet[SOMATIC_MUTATIONS_CASE_ID] = self._case_id
+
+        sheet[SOMATIC_MUTATIONS_DATE] = self._date
 
         self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
 
@@ -339,6 +357,10 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
+        sheet[COPY_NUMBER_CASE_ID] = self._case_id
+
+        sheet[COPY_NUMBER_DATE] = self._date
+
         records = self._copy_number_file_parser.getCopyNumberSheetRecords()
 
         current_row =  COPY_NUMBER_START_ROW
@@ -383,6 +405,10 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
+        sheet[NEOANTIGEN_CANDIDATES_CASE_ID] = self._case_id
+
+        sheet[NEOANTIGEN_CANDIDATES_DATE] = self._date
+
         self._neoantigens_reported_file_parser = nrp(self._trigger_file_parser.getNeoantigensReportedFile())
 
         record_list = self._neoantigens_reported_file_parser.getRecordList()
@@ -424,6 +450,10 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet_name = 'Somatic Peptides'
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
+
+        sheet[SOMATIC_PEPTIDES_CASE_ID] = self._case_id
+
+        sheet[SOMATIC_PEPTIDES_DATE] = self._date
 
         self._final_peptides_file_parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
 
