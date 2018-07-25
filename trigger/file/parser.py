@@ -1,3 +1,4 @@
+import datetime
 import csv
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
@@ -234,5 +235,18 @@ class Parser(object):
             return self._lookup['Source of Normal DNA']
         else:
             return 'N/A'
+
+
+    def getDate(self):
+        """
+
+        :return:
+        """
+        if 'Report Date' in self._lookup:
+            return self._lookup['Report Date']
+
+        else:
+            self._lookup['Report Date'] = datetime.datetime.today().strftime('%m/%d/%Y')
+
 
 

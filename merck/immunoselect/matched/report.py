@@ -103,7 +103,6 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._template_file = self._template_directory + '/' + self._excel_template_name
         self._outfile = self._outdir + self._excel_template_name
         self._trigger_file_parser = tp(self._trigger_file)
-        self._date = '25JUL2018'
         self._copy_number_file_parser = cnp(self._trigger_file_parser.getCopyNumberFile())
         self._summarysheet_file_parser = ssp(self._trigger_file_parser.getSummarysheetFile())
         self._final_peptides_file_parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
@@ -141,7 +140,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 
         sheet[OVERVIEW_CASE_ID] = self._trigger_file_parser.getPGDXId() + ' - ' + self._trigger_file_parser.getSpecimenNumber()
-        sheet[OVERVIEW_DATE] = self._date
+        sheet[OVERVIEW_DATE] = self._trigger_file_parser.getDate()
         sheet[OVERVIEW_TUMOR_TYPE] = self._trigger_file_parser.getDiagnosis()
         sheet[OVERVIEW_TUMOR_LOCATION] = self._trigger_file_parser.getPrimaryTumorSite()
         sheet[OVERVIEW_SAMPLE_TYPE] = self._trigger_file_parser.getSampleType()
@@ -165,7 +164,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet[RESULTS_SUMMARY_CASE_ID] = self._trigger_file_parser.getPGDXId() + ' - ' + self._trigger_file_parser.getSpecimenNumber()
 
-        sheet[RESULTS_SUMMARY_DATE] = self._date
+        sheet[RESULTS_SUMMARY_DATE] = self._trigger_file_parser.getDate()
 
         # Number of somatic sequence alterations identified
         sheet[RESULT_SUMMARY_NUM_SOM_SEQ_ALT_IDE_TUMOR] = self._summarysheet_file_parser.getRecordCount()
@@ -245,23 +244,22 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
             if record_ctr == 0:
                 # do not want to write the header of the data file to this sheet
-                continue
 
-            a = COPY_NUMBER_GEN_SYM_COL + str(current_row)
-            b = COPY_NUMBER_GEN_DES_COL + str(current_row)
-            c = COPY_NUMBER_GEN_ACC_COL + str(current_row)
-            d = COPY_NUMBER_NUC_POS_COL + str(current_row)
-            e = COPY_NUMBER_FOL_AMP_COL + str(current_row)
-            f = COPY_NUMBER_MUT_TYP_COL + str(current_row)
+                a = COPY_NUMBER_GEN_SYM_COL + str(current_row)
+                b = COPY_NUMBER_GEN_DES_COL + str(current_row)
+                c = COPY_NUMBER_GEN_ACC_COL + str(current_row)
+                d = COPY_NUMBER_NUC_POS_COL + str(current_row)
+                e = COPY_NUMBER_FOL_AMP_COL + str(current_row)
+                f = COPY_NUMBER_MUT_TYP_COL + str(current_row)
 
-            sheet[a] = record[0]
-            sheet[b] = record[1]
-            sheet[c] = record[2]
-            sheet[d] = record[3]
-            sheet[e] = record[4]
-            sheet[f] = record[5]
+                sheet[a] = record[0]
+                sheet[b] = record[1]
+                sheet[c] = record[2]
+                sheet[d] = record[3]
+                sheet[e] = record[4]
+                sheet[f] = record[5]
 
-            current_row += 1
+                current_row += 1
 
             record_ctr += 1
 
@@ -302,19 +300,18 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         for record in records:
 
-            if record_ctr == 0:
+            if record_ctr != 0:
                 # do not want to write the header of the data file to this sheet
-                continue
 
-            a = SOMATIC_PEPTIDES_GEN_SYM + str(current_row)
-            b = SOMATIC_PEPTIDES_MUT_POS + str(current_row)
-            c = SOMATIC_PEPTIDES_MUT_PEP + str(current_row)
+                a = SOMATIC_PEPTIDES_GEN_SYM + str(current_row)
+                b = SOMATIC_PEPTIDES_MUT_POS + str(current_row)
+                c = SOMATIC_PEPTIDES_MUT_PEP + str(current_row)
 
-            sheet[a] = record[0]
-            sheet[b] = record[1]
-            sheet[c] = record[2]
+                sheet[a] = record[0]
+                sheet[b] = record[1]
+                sheet[c] = record[2]
 
-            current_row += 1
+                current_row += 1
 
             record_ctr += 1
 
