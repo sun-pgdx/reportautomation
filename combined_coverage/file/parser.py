@@ -177,6 +177,8 @@ class Parser(pgdx.file.parser.Parser):
 
         :return: list of list
         """
-        val = (self._sum_distinct_total_reads / self._sum_distinct_mut_reads) * 200
+        val = (self._sum_distinct_total_reads / self._sum_distinct_mut_reads) * 2
+
+        print("Mutation base Tumor Purity is : " + str(val))
 
         return val
