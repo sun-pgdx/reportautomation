@@ -214,7 +214,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         # Mutation based Tumor Purity
         # This value is based on the following calculation:
         # (Sum Distinct Mut Reads / Sum Distinct Total Reads)*2*100
-        sheet[OVERVIEW_MUTATION_BASE_TUMOR_PURITY] = 'TBD'
+        sheet[OVERVIEW_MUTATION_BASE_TUMOR_PURITY] = self._combined_coverage_file_parser.getMutationBaseTumorPurity()
 
         # Source of normal DNA
         sheet[OVERVIEW_SOURCE_OF_NORMAL_DNA] = self._trigger_file_parser.getSourceOfNormalDNA()

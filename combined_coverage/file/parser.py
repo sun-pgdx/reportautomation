@@ -25,6 +25,19 @@ pp = pprint.PrettyPrinter(indent=4)
 # 255: 'Report: CHASM'
 # }
 
+
+# The following two fields are required for determining the
+# Mutation based Tumor Purity where
+# 'Report: DistinctPairs' is column number 242 (IH) maps to Sum Distinct Mut Reads
+# 'Report: DistinctCoverage' is column number 243 (II) maps to Sum Distinct Total Reads
+#
+# and is calculated with this formula:
+# (Sum Distinct Mut Reads / Sum Distinct Total Reads)*2*100
+
+SUM_DISTINCT_MUT_READS = 241
+SUM_DISTINCT_TOTAL_READS = 242
+
+
 qualified_fields = set(('Report: GeneName',
                         'Report: Description',
                         'Report: Transcript',
@@ -65,6 +78,9 @@ class Parser(pgdx.file.parser.Parser):
         self._has_header_row = True
         self._position_to_header_lookup = {}
         self._somatic_mutations_record_list = []
+        self._sum_distinct_mut_reads = 0
+        self._sum_distinct_total_reads = 0
+
         self._parse_file()
 
     def _parse_file(self):
@@ -124,6 +140,16 @@ class Parser(pgdx.file.parser.Parser):
                     smr.append(row[254].replace("\n", '').replace("\r",''))
                     smr.append(row[255].replace("\n", '').replace("\r",''))
 
+
+
+                    # IH: report distinctcoverage => Sum Distinct Total Reads
+                    # II: Report: DistinctPairs => Sum Distinct Mut Reads
+                    # (Sum Distinct Mut Reads / Sum Distinct Total Reads)*2*100
+
+                    self._sum_distinct_mut_reads += float(row[SUM_DISTINCT_MUT_READS])
+
+                    self._sum_distinct_total_reads += float(row[SUM_DISTINCT_TOTAL_READS])
+
                     # field_ctr = 0
                     # for field in row:
                     #     if field_ctr in self._position_to_header_lookup:
@@ -145,3 +171,12 @@ class Parser(pgdx.file.parser.Parser):
         :return: list of list
         """
         return self._somatic_mutations_record_list
+
+    def getMutationBaseTumorPurity(self):
+        """
+
+        :return: list of list
+        """
+        val = (self._sum_distinct_total_reads / self._sum_distinct_mut_reads) * 200
+
+        return val
