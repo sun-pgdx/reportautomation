@@ -198,14 +198,34 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         sheet[OVERVIEW_CASE_ID] = self._case_id
         sheet[OVERVIEW_DATE] = self._date
+
+        # Tumor Type
         sheet[OVERVIEW_TUMOR_TYPE] = self._trigger_file_parser.getDiagnosis()
+
+        # Tumor Location
         sheet[OVERVIEW_TUMOR_LOCATION] = self._trigger_file_parser.getPrimaryTumorSite()
+
+        # Sample Type
         sheet[OVERVIEW_SAMPLE_TYPE] = self._trigger_file_parser.getSampleType()
+
+        # Pathological Tumor Purity
         sheet[OVERVIEW_PATHOLOGICAL_TUMOR_PURITY] = self._trigger_file_parser.getPercentTumor()
+
+        # Mutation based Tumor Purity
+        # This value is based on the following calculation:
+        # (Sum Distinct Mut Reads / Sum Distinct Total Reads)*2*100
         sheet[OVERVIEW_MUTATION_BASE_TUMOR_PURITY] = 'TBD'
+
+        # Source of normal DNA
         sheet[OVERVIEW_SOURCE_OF_NORMAL_DNA] = self._trigger_file_parser.getSourceOfNormalDNA()
+
+        # Randomization Number
         sheet[OVERVIEW_RANDOMIZATION_NUMBER] = self._trigger_file_parser.getRandomizationNumber()
+
+        # Screening Number
         sheet[OVERVIEW_SCREENING_NUMBER] = self._trigger_file_parser.getScreeningNumber()
+
+        # Trial ID
         sheet[OVERVIEW_TRIAL_ID] = self._trigger_file_parser.getTrialId()
 
         print("Wrote to sheet '%s'" % sheet_name)
