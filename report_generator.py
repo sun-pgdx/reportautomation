@@ -49,17 +49,19 @@ def main(trigger_file, verbose, outdir):
     repgen = None
 
     if report_type == 'Merck_ImmunoSELECT_Matched' or report_type == 'Merck ImmunoSELECT Matched':
+
         repgen = mimRepGen(trigger_file, outdir)
 
     elif report_type == 'Merck_ImmunoSELECT_Unmatched' or report_type == 'Merck ImmunoSELECT Unmatched':
+
         repgen = miumRepGen(trigger_file, outdir)
 
     elif report_type == 'Victor ImmunoSELECT Matched':
-        print("A1")
+
         repgen = vimRepGen(trigger_file, outdir)
 
     elif report_type == 'Victor ImmunoSELECT Unmatched':
-        print("A2")
+
         repgen = viumRepGen(trigger_file, outdir)
 
     else:
