@@ -171,6 +171,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._trigger_file_parser = tp(self._trigger_file)
         self._copy_number_file_parser = cnp(self._trigger_file_parser.getCopyNumberFile())
         self._summarysheet_file_parser = ssp(self._trigger_file_parser.getSummarysheetFile())
+        self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
 
         self._outfile = self._outdir + self._trigger_file_parser.getFinalReportName() + '.xlsx'
 
@@ -217,7 +218,12 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet[OVERVIEW_TUMOR_LOCATION] = self._trigger_file_parser.getPrimaryTumorSite()
         sheet[OVERVIEW_SAMPLE_TYPE] = self._trigger_file_parser.getSampleType()
         sheet[OVERVIEW_PATHOLOGICAL_TUMOR_PURITY] = self._trigger_file_parser.getPercentTumor()
-        sheet[OVERVIEW_MUTATION_BASE_TUMOR_PURITY] = 'TBD'
+
+        # Mutation based Tumor Purity
+        # This value is based on the following calculation:
+        # (Sum Distinct Mut Reads / Sum Distinct Total Reads)*2*100
+        sheet[OVERVIEW_MUTATION_BASE_TUMOR_PURITY] = self._combined_coverage_file_parser.getMutationBaseTumorPurity()
+
         sheet[OVERVIEW_SOURCE_OF_NORMAL_DNA] = self._trigger_file_parser.getSourceOfNormalDNA()
         sheet[OVERVIEW_RANDOMIZATION_NUMBER] = self._trigger_file_parser.getRandomizationNumber()
         sheet[OVERVIEW_SCREENING_NUMBER] = self._trigger_file_parser.getScreeningNumber()
@@ -239,7 +245,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet[RESULTS_SUMMARY_DATE] = self._date
 
         # Number of somatic sequence alterations identified
-        sheet[RESULT_SUMMARY_NUM_SOM_SEQ_ALT_IDE_TUMOR] = self._summarysheet_file_parser.getRecordCount()
+        sheet[RESULT_SUMMARY_NUM_SOM_SEQ_ALT_IDE_TUMOR] = self._combined_coverage_file_parser.getRecordCount()
         sheet[RESULT_SUMMARY_NUM_SOM_SEQ_ALT_IDE_NORMAL]= 'N/A'
 
         # Number of somatic copy number alterations identified
@@ -297,8 +303,6 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet[SOMATIC_MUTATIONS_CASE_ID] = self._case_id
 
         sheet[SOMATIC_MUTATIONS_DATE] = self._date
-
-        self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
 
         records = self._combined_coverage_file_parser.getSomaticMutationsSheetRecords()
 
