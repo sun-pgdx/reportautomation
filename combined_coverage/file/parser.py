@@ -160,6 +160,8 @@ class Parser(pgdx.file.parser.Parser):
 
                     self._somatic_mutations_record_list.append(smr)
 
+                    self._record_count += 1
+
             # pp.pprint(self._somatic_mutations_record_list)
             print("Processed '%d' rows in combined coverage file '%s'" % (row_ctr, self._infile))
 
@@ -182,3 +184,10 @@ class Parser(pgdx.file.parser.Parser):
         print("Mutation base Tumor Purity is : " + str(val))
 
         return val
+
+    def getRecordCount(self):
+        """
+
+        :return:
+        """
+        return self._record_count
