@@ -264,7 +264,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         # Percent T/N Matching
         sheet[RESULT_SUMMARY_PRE_TN_MAT_TUMOR] = self._summarysheet_file_parser.getValueByLocation(35,1)
-        sheet[RESULT_SUMMARY_PRE_TN_MAT_NORMAL] = self._summarysheet_file_parser.getValueByLocation(35,2)
+        sheet[RESULT_SUMMARY_PRE_TN_MAT_NORMAL] = 'N/A'
 
         print("Wrote to sheet '%s'" % sheet_name)
 
