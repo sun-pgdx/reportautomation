@@ -153,6 +153,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         self._trigger_file_parser = tp(self._trigger_file)
         self._copy_number_file_parser = cnp(self._trigger_file_parser.getCopyNumberFile())
         self._summarysheet_file_parser = ssp(self._trigger_file_parser.getSummarysheetFile())
+        self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
 
         self._outfile = self._outdir + self._trigger_file_parser.getFinalReportName() + '.xlsx'
 
@@ -223,7 +224,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet[RESULTS_SUMMARY_DATE] = self._date
 
         # Number of somatic sequence alterations identified
-        sheet[RESULT_SUMMARY_NUM_SOM_SEQ_ALT_IDE_TUMOR] = self._summarysheet_file_parser.getRecordCount()
+        sheet[RESULT_SUMMARY_NUM_SOM_SEQ_ALT_IDE_TUMOR] = self._combined_coverage_file_parser.getRecordCount()
         sheet[RESULT_SUMMARY_NUM_SOM_SEQ_ALT_IDE_NORMAL]= 'N/A'
 
         # Number of somatic copy number alterations identified
@@ -281,8 +282,6 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         sheet[SOMATIC_MUTATIONS_CASE_ID] = self._case_id
 
         sheet[SOMATIC_MUTATIONS_DATE] = self._date
-
-        self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
 
         records = self._combined_coverage_file_parser.getSomaticMutationsSheetRecords()
 
