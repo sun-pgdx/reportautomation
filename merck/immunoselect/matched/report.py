@@ -180,6 +180,8 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         self._write_somatic_peptides_sheet()
 
+        print("Will attempt to write the final report file '%s'" %  self._outfile)
+
         self._xfile.save(self._outfile)
 
         print("Wrote output file '%s'" % self._outfile)
@@ -398,7 +400,6 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
-        pass
 
         sheet_name = 'Neoantigen Candidates'
 
@@ -444,7 +445,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
-        pass
+
 
         sheet_name = 'Somatic Peptides'
 
