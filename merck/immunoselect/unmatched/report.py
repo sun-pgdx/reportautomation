@@ -407,6 +407,9 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
             record_ctr += 1
 
+        if record_ctr == 1:
+            sheet['A10'] = 'No copy number alterations identified'
+
         print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
 
 
