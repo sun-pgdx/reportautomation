@@ -62,6 +62,7 @@ class Parser(pgdx.file.parser.Parser):
         self._infile = infile
         self._record_list = []
         self._record_count = 0
+        self._has_header_row = True
         self._position_to_header_lookup = {}
         self._somatic_mutations_record_list = []
         self._parse_file()

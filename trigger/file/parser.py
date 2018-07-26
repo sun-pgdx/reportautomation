@@ -14,6 +14,7 @@ class Parser(object):
         self._infile = infile
         self._lookup = {}
         self._position_to_header_lookup = {}
+        self._has_header_row = True
         self._parse_file()
 
 

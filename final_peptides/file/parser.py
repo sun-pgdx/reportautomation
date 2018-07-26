@@ -2,7 +2,7 @@ import pgdx.file.parser
 
 class Parser(pgdx.file.parser.Parser):
     """
-    
+
     """
     def __init__(self, infile):
         """
@@ -11,6 +11,7 @@ class Parser(pgdx.file.parser.Parser):
         """
         self._infile = infile
         self._record_list = []
+        self._has_header_row = True
         self._record_count = 0
         self._parse_file()
 

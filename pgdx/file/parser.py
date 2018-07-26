@@ -12,6 +12,7 @@ class Parser():
         self._infile = infile
         self._record_list = []
         self._record_count = 0
+        self._has_header_row = True
         self._parse_file()
 
     def _parse_file(self):
@@ -36,7 +37,11 @@ class Parser():
 
         :return:
         """
-        return self._record_count
+        if self._has_header_row:
+            count = self._record_count - 1
+            return count
+        else:
+            return self._record_count
 
     def getRecordList(self):
         """
