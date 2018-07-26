@@ -73,7 +73,7 @@ class Parser(pgdx.file.parser.Parser):
         """
 
         with open(self._infile, 'r') as csvfile:
-            reader = csv.reader(csvfile, delimiter='\t')
+            reader = csv.reader(csvfile, delimiter="\t")
 
             row_ctr= 0
 
@@ -94,29 +94,34 @@ class Parser(pgdx.file.parser.Parser):
                     # Processing a non-header row
 
                     smr= []
-                    smr.append(row[227])
-                    smr.append(row[228])
-                    smr.append(row[229])
-                    smr.append(row[230])
-                    smr.append(row[231])
-                    smr.append(row[232])
-                    smr.append(row[233])
-                    smr.append(row[234])
-                    smr.append(row[235])
-                    smr.append(row[236])
-                    smr.append(row[237])
-                    smr.append(row[238])
-                    smr.append(row[244])
-                    smr.append(row[245])
-                    smr.append(row[246])
-                    smr.append(row[247])
-                    smr.append(row[248])
-                    smr.append(row[249])
-                    smr.append(row[251])
-                    smr.append(row[252])
-                    smr.append(row[253])
-                    smr.append(row[254])
-                    smr.append(row[255])
+                    smr.append(row[227].replace("\n", '').replace("\r",''))
+                    smr.append(row[228].replace("\n", '').replace("\r",''))
+                    smr.append(row[229].replace("\n", '').replace("\r",''))
+                    smr.append(row[230].replace("\n", '').replace("\r",''))
+                    smr.append(row[231].replace("\n", '').replace("\r",''))
+                    smr.append(row[232].replace("\n", '').replace("\r",''))
+                    smr.append(row[233].replace("\n", '').replace("\r",''))
+                    smr.append(row[234].replace("\n", '').replace("\r",''))
+                    smr.append(row[235].replace("\n", '').replace("\r",''))
+                    smr.append(row[236].replace("\n", '').replace("\r",''))
+                    smr.append(row[237].replace("\n", '').replace("\r",''))
+                    smr.append(row[238].replace("\n", '').replace("\r",''))
+                    smr.append(row[244].replace("\n", '').replace("\r",''))
+                    smr.append(row[245].replace("\n", '').replace("\r",''))
+                    smr.append(row[246].replace("\n", '').replace("\r",''))
+                    #smr.append('N/A')
+                    smr.append(row[247].replace("\n", '').replace("\r",''))
+                    #smr.append('N/A')
+                    smr.append(row[248].replace("\n", '').replace("\r",''))
+                    #smr.append('N/A')
+                    smr.append(row[249].replace("\n", '').replace("\r",''))
+                    smr.append(row[250].replace("\n", '').replace("\r",''))
+                    smr.append(row[251].replace("\n", '').replace("\r",''))
+                    smr.append(row[252].replace("\n", '').replace("\r",''))
+                    # smr.append('N/A')
+                    smr.append(row[253].replace("\n", '').replace("\r",''))
+                    smr.append(row[254].replace("\n", '').replace("\r",''))
+                    smr.append(row[255].replace("\n", '').replace("\r",''))
 
                     # field_ctr = 0
                     # for field in row:

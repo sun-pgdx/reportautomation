@@ -1,6 +1,4 @@
 import sys
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
 
 import pgdx.report
 from trigger.file.parser import Parser as tp
@@ -139,7 +137,7 @@ NEOANTIGEN_CANDIDATES_COLUMNS = ['A','B','C','D','E','F','G','H','I','J','K','L'
 
 class ReportGenerator(pgdx.report.ReportGenerator):
     """
-    
+
     """
     def __init__(self, trigger_file, outdir):
         """
@@ -292,9 +290,6 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         for record in records:
 
-            pp.pprint(record)
-            # sys.exit(1)
-
             a = SOMATIC_MUTATIONS_GEN_SYM + str(current_row)
             b = SOMATIC_MUTATIONS_GEN_DES + str(current_row)
             c = SOMATIC_MUTATIONS_TRA_ACC + str(current_row)
@@ -343,7 +338,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
             sheet[u] = record[20]
             sheet[v] = record[21]
             sheet[w] = record[22]
-            # sheet[x] = record[23]
+            sheet[x] = record[23]
 
             current_row += 1
 
