@@ -211,21 +211,31 @@ class Parser(object):
 
         :return:
         """
-        return self._lookup['Randomization ID']
+        if 'Randomization ID' in self._lookup:
+            return self._lookup['Randomization ID']
+        else:
+            return 'N/A'
 
     def getScreeningNumber(self):
         """
 
         :return:
         """
-        return self._lookup['Screening ID']
+        if 'Screening ID' in self._lookup:
+            return self._lookup['Screening ID']
+        else:
+            return 'N/A'
+
 
     def getTrialId(self):
         """
 
         :return:
         """
-        return self._lookup['Trial ID']
+        if 'Trial ID' in self._lookup:
+            return self._lookup['Trial ID']
+        else:
+            return 'N/A'
 
     def getSourceOfNormalDNA(self):
         """
