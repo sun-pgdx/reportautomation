@@ -56,11 +56,11 @@ def main(trigger_file, verbose, outdir):
 
         repgen = miumRepGen(trigger_file, outdir)
 
-    elif report_type == 'Victor ImmunoSELECT Matched':
+    elif report_type == 'Victor ImmunoSELECT Matched' or report_type == 'Victor_ImmunoSELECT_Matched':
 
         repgen = vimRepGen(trigger_file, outdir)
 
-    elif report_type == 'Victor ImmunoSELECT Unmatched':
+    elif report_type == 'Victor ImmunoSELECT Unmatched' or report_type == 'Victor_ImmunoSELECT_Unmatched':
 
         repgen = viumRepGen(trigger_file, outdir)
 
