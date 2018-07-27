@@ -146,16 +146,19 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         """
         self._trigger_file = trigger_file
         self._outdir = outdir
-        self._template_directory = 'templates'
-        self._excel_template_name = 'Merck_ImmunoSELECT_Matched_Report_Template.xlsx'
-        self._template_file = self._template_directory + '/' + self._excel_template_name
 
         self._trigger_file_parser = tp(self._trigger_file)
+
+        # Should be like Merck_ImmunoSELECT_Matched_Report_Template.xlsx
+        self._template_file = self._trigger_file_parser.getTemplateFilePath()
+
+        self._outfile = self._trigger_file_parser.getFinalReportPath()  + self._trigger_file_parser.getFinalReportName() + '.xlsx'
+
         self._copy_number_file_parser = cnp(self._trigger_file_parser.getCopyNumberFile())
         self._summarysheet_file_parser = ssp(self._trigger_file_parser.getSummarysheetFile())
         self._combined_coverage_file_parser = ccp(self._trigger_file_parser.getCombinedCoverageFile())
 
-        self._outfile = self._outdir + self._trigger_file_parser.getFinalReportName() + '.xlsx'
+
 
     def generateReport(self):
         """
