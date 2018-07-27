@@ -7,6 +7,7 @@ from copy_number.file.parser import Parser as cnp
 from final_peptides.file.parser import Parser as fpp
 from combined_coverage.file.parser import Parser as ccp
 from neoantigens_reported.file.parser import Parser as nrp
+
 from somatic_peptides.xlsx.sheet.writer import Writer as spsw
 from copy_number.xlsx.sheet.writer import Writer as cnsw
 from somatic_mutations.xlsx.sheet.writer import Writer as smsw
@@ -178,7 +179,7 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
-        sheet_name = 'Results summary'
+        sheet_name = 'Results Summary'
 
         sheet = self._xfile.get_sheet_by_name(sheet_name)
 

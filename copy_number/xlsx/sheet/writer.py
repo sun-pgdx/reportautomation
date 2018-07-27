@@ -26,7 +26,7 @@ class Writer(object):
         self._copy_number_file_parser = copy_number_file_parser
         self._case_id = case_id
         self._date = date
-        self._sheet_name = 'Copy number'
+        self._sheet_name = 'Copy Number'
 
     def writeSheet(self):
         """

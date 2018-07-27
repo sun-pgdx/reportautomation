@@ -45,7 +45,7 @@ class Writer(object):
         self._file_parser = file_parser
         self._case_id = case_id
         self._date = date
-        self._sheet_name = 'Somatic mutations'
+        self._sheet_name = 'Somatic Mutations'
 
     def writeSheet(self):
         """

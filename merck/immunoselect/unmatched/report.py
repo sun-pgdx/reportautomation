@@ -8,6 +8,12 @@ from final_peptides.file.parser import Parser as fpp
 from combined_coverage.file.parser import Parser as ccp
 from neoantigens_reported.file.parser import Parser as nrp
 
+from somatic_peptides.xlsx.sheet.writer import Writer as spsw
+from copy_number.xlsx.sheet.writer import Writer as cnsw
+from somatic_mutations.xlsx.sheet.writer import Writer as smsw
+from neoantigen_candidates.xlsx.sheet.writer import Writer as ncsw
+
+
 import openpyxl
 
 # Overview sheet
@@ -77,81 +83,6 @@ RESULT_SUMMARY_GER_SNP_PRE_NORMAL = 'C26'
 # Percent T/N Matching
 RESULT_SUMMARY_PRE_TN_MAT_TUMOR = 'B27'
 RESULT_SUMMARY_PRE_TN_MAT_NORMAL = 'C27'
-
-# Copy number sheet
-
-COPY_NUMBER_SHEET_NAME = 'Copy Number'
-
-COPY_NUMBER_CASE_ID = 'A5'
-COPY_NUMBER_DATE = 'F5'
-
-COPY_NUMBER_GEN_SYM_COL = 'A'
-COPY_NUMBER_GEN_DES_COL = 'B'
-COPY_NUMBER_GEN_ACC_COL = 'C'
-COPY_NUMBER_NUC_POS_COL = 'D'
-COPY_NUMBER_FOL_AMP_COL = 'E'
-COPY_NUMBER_MUT_TYP_COL = 'F'
-
-COPY_NUMBER_START_ROW = 10
-
-# Somatic Peptides sheet
-
-SOMATIC_PEPTIDES_SHEET_NAME = 'Somatic Peptides'
-
-SOMATIC_PEPTIDES_GEN_SYM = 'A'
-SOMATIC_PEPTIDES_MUT_POS = 'B'
-SOMATIC_PEPTIDES_MUT_PEP = 'C'
-
-SOMATIC_PEPTIDES_START_ROW = 10
-
-SOMATIC_PEPTIDES_CASE_ID = 'A5'
-SOMATIC_PEPTIDES_DATE = 'C5'
-
-# Somatic mutations sheet
-
-SOMATIC_MUTATIONS_SHEET_NAME = 'Somatic Mutations'
-
-SOMATIC_MUTATIONS_CASE_ID = 'A5'
-SOMATIC_MUTATIONS_DATE = 'X5'
-
-SOMATIC_MUTATIONS_START_ROW = 10
-
-SOMATIC_MUTATIONS_GEN_SYM = 'A'
-SOMATIC_MUTATIONS_GEN_DES = 'B'
-SOMATIC_MUTATIONS_TRA_ACC = 'C'
-SOMATIC_MUTATIONS_NUC_GEN = 'D'
-SOMATIC_MUTATIONS_NUC_COD = 'E'
-SOMATIC_MUTATIONS_AMI_ACI = 'F'
-SOMATIC_MUTATIONS_EXO = 'G'
-SOMATIC_MUTATIONS_MUT_TYP = 'H'
-SOMATIC_MUTATIONS_CONSEQ  = 'I'
-SOMATIC_MUTATIONS_SEQ_CON = 'J'
-SOMATIC_MUTATIONS_MUT_REA = 'K'
-SOMATIC_MUTATIONS_CON_INT = 'L'
-SOMATIC_MUTATIONS_BIO_REL = 'M'
-SOMATIC_MUTATIONS_CLI_REL_GEN = 'N'
-SOMATIC_MUTATIONS_PAT_ANA_GO_MOL_FUN = 'O'
-SOMATIC_MUTATIONS_PAT_ANA_GO_BIO_FUN = 'P'
-SOMATIC_MUTATIONS_PAT_ANA_GO_ADD_INF = 'Q'
-SOMATIC_MUTATIONS_REP_SAM_DE_SOM_MUT = 'R'
-SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_SAM_AAR = 'S'
-SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_NEA_AAR = 'T'
-SOMATIC_MUTATIONS_GEN_REP = 'U'
-SOMATIC_MUTATIONS_POS_MUT_PRO_DOM = 'V'
-SOMATIC_MUTATIONS_POS_MUT_NEA_PRO_DOM = 'W'
-SOMATIC_MUTATIONS_CHASM_SCORE = 'X'
-
-
-# Neoantigen Candidates sheet
-
-NEOANTIGEN_CANDIDATES_SHEET_NAME = 'Neoantigen Candidates'
-
-NEOANTIGEN_CANDIDATES_START_ROW = 10;
-
-NEOANTIGEN_CANDIDATES_CASE_ID = 'A5'
-NEOANTIGEN_CANDIDATES_DATE = 'CD5'
-
-NEOANTIGEN_CANDIDATES_COLUMNS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AN','AO','AP','AQ','AR','AS','AT','AU','AV','AW','AX','AY','AZ','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BK','BL','BM','BN','BO','BP','BQ','BR','BS','BT','BU','BV','BW','BX','BY','BZ','CA','CB','CC','CD','CE','CF','CG','CH','CI','CJ','CK','CL','CM','CN','CO','CP','CQ','CR','CS','CT','CU','CV','CW','CX','CY','CZ']
 
 class ReportGenerator(pgdx.report.ReportGenerator):
     """
@@ -298,52 +229,9 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
-        sheet_name = SOMATIC_MUTATIONS_SHEET_NAME
+        writer = smsw(self._xfile, self._combined_coverage_file_parser, self._case_id, self._date)
 
-        sheet = self._xfile.get_sheet_by_name(sheet_name)
-
-        sheet[SOMATIC_MUTATIONS_CASE_ID] = self._case_id
-
-        sheet[SOMATIC_MUTATIONS_DATE] = self._date
-
-        records = self._combined_coverage_file_parser.getSomaticMutationsSheetRecords()
-
-        current_row = SOMATIC_MUTATIONS_START_ROW
-
-        record_ctr = 0
-
-        for record in records:
-
-            sheet[SOMATIC_MUTATIONS_GEN_SYM + str(current_row)] = record[0]
-            sheet[SOMATIC_MUTATIONS_GEN_DES + str(current_row)] = record[1]
-            sheet[SOMATIC_MUTATIONS_TRA_ACC + str(current_row)] = record[2]
-            sheet[SOMATIC_MUTATIONS_NUC_GEN + str(current_row)] = record[3]
-            sheet[SOMATIC_MUTATIONS_NUC_COD + str(current_row)] = record[4]
-            sheet[SOMATIC_MUTATIONS_AMI_ACI + str(current_row)] = record[5]
-            sheet[SOMATIC_MUTATIONS_EXO + str(current_row)] = record[6]
-            sheet[SOMATIC_MUTATIONS_MUT_TYP + str(current_row)] = record[7]
-            sheet[SOMATIC_MUTATIONS_CONSEQ + str(current_row)] = record[8]
-            sheet[SOMATIC_MUTATIONS_SEQ_CON + str(current_row)] = record[9]
-            sheet[SOMATIC_MUTATIONS_MUT_REA + str(current_row)] = record[10]
-            sheet[SOMATIC_MUTATIONS_CON_INT + str(current_row)] = record[11]
-            sheet[SOMATIC_MUTATIONS_BIO_REL + str(current_row)] = record[12]
-            sheet[SOMATIC_MUTATIONS_CLI_REL_GEN + str(current_row)] = record[13]
-            sheet[SOMATIC_MUTATIONS_PAT_ANA_GO_MOL_FUN + str(current_row)] = record[14]
-            sheet[SOMATIC_MUTATIONS_PAT_ANA_GO_BIO_FUN + str(current_row)] = record[15]
-            sheet[SOMATIC_MUTATIONS_PAT_ANA_GO_ADD_INF + str(current_row)] = record[16]
-            sheet[SOMATIC_MUTATIONS_REP_SAM_DE_SOM_MUT + str(current_row)] = record[17]
-            sheet[SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_SAM_AAR + str(current_row)] = record[18]
-            sheet[SOMATIC_MUTATIONS_REP_SAM_SOM_MUT_NEA_AAR + str(current_row)] = record[19]
-            sheet[SOMATIC_MUTATIONS_GEN_REP + str(current_row)] = record[20]
-            sheet[SOMATIC_MUTATIONS_POS_MUT_PRO_DOM + str(current_row)] = record[21]
-            sheet[SOMATIC_MUTATIONS_POS_MUT_NEA_PRO_DOM + str(current_row)] = record[22]
-            sheet[SOMATIC_MUTATIONS_CHASM_SCORE + str(current_row)] = record[23]
-
-            current_row += 1
-
-            record_ctr += 1
-
-        print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
+        writer.writeSheet()
 
 
     def _write_copy_number_sheet(self):
@@ -351,86 +239,20 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
-        sheet_name = COPY_NUMBER_SHEET_NAME
+        writer = cnsw(self._xfile, self._copy_number_file_parser, self._case_id, self._date)
 
-        sheet = self._xfile.get_sheet_by_name(sheet_name)
-
-        sheet[COPY_NUMBER_CASE_ID] = self._case_id
-
-        sheet[COPY_NUMBER_DATE] = self._date
-
-        records = self._copy_number_file_parser.getCopyNumberSheetRecords()
-
-        current_row =  COPY_NUMBER_START_ROW
-
-        record_ctr = 0
-
-        for record in records:
-
-            if record_ctr != 0:
-                # do not want to write the header of the data file to this sheet
-
-                sheet[COPY_NUMBER_GEN_SYM_COL + str(current_row)] = record[0]
-                sheet[COPY_NUMBER_GEN_DES_COL + str(current_row)] = record[1]
-                sheet[COPY_NUMBER_GEN_ACC_COL + str(current_row)] = record[2]
-                sheet[COPY_NUMBER_NUC_POS_COL + str(current_row)] = record[3]
-                sheet[COPY_NUMBER_FOL_AMP_COL + str(current_row)] = record[4]
-                sheet[COPY_NUMBER_MUT_TYP_COL + str(current_row)] = record[5]
-
-                current_row += 1
-
-            record_ctr += 1
-
-        if record_ctr == 1:
-            sheet['A10'] = 'No copy number alterations identified'
-
-        print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
-
-
+        writer.writeSheet()
 
     def _write_neoantigen_candidates_sheet(self):
         """
 
         :return:
         """
+        parser = nrp(self._trigger_file_parser.getNeoantigensReportedFile())
 
-        sheet_name = NEOANTIGEN_CANDIDATES_SHEET_NAME
+        writer = ncsw(self._xfile, parser, self._case_id, self._date)
 
-        sheet = self._xfile.get_sheet_by_name(sheet_name)
-
-        sheet[NEOANTIGEN_CANDIDATES_CASE_ID] = self._case_id
-
-        sheet[NEOANTIGEN_CANDIDATES_DATE] = self._date
-
-        self._neoantigens_reported_file_parser = nrp(self._trigger_file_parser.getNeoantigensReportedFile())
-
-        record_list = self._neoantigens_reported_file_parser.getRecordList()
-
-        current_row = NEOANTIGEN_CANDIDATES_START_ROW
-
-        record_ctr = 0
-
-        for record in record_list:
-
-            if record_ctr != 0:
-                # do not want to write the header of the data file to this sheet
-
-                record.pop(0) # remove the first element which is the PGDX identifier
-
-                # num_fields = len(record)
-                field_ctr = 0
-                for field in record:
-                    location = NEOANTIGEN_CANDIDATES_COLUMNS[field_ctr]
-                    cell_location = location + str(current_row)
-                    sheet[cell_location] = field
-                    field_ctr += 1
-
-                current_row += 1
-
-            record_ctr += 1
-
-        print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
-
+        writer.writeSheet()
 
 
     def _write_somatic_peptides_sheet(self):
@@ -438,36 +260,9 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         :return:
         """
+        parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
 
-        sheet_name = SOMATIC_PEPTIDES_SHEET_NAME
+        writer = spsw(self._xfile, parser, self._case_id, self._date)
 
-        sheet = self._xfile.get_sheet_by_name(sheet_name)
-
-        sheet[SOMATIC_PEPTIDES_CASE_ID] = self._case_id
-
-        sheet[SOMATIC_PEPTIDES_DATE] = self._date
-
-        self._final_peptides_file_parser = fpp(self._trigger_file_parser.getFinalPeptidesFile())
-
-        records = self._final_peptides_file_parser.getSomaticPeptidesSheetRecords()
-
-        current_row = SOMATIC_PEPTIDES_START_ROW
-
-        record_ctr = 0
-
-        for record in records:
-
-            if record_ctr != 0:
-                # do not want to write the header of the data file to this sheet
-
-                sheet[SOMATIC_PEPTIDES_GEN_SYM + str(current_row)] = record[0]
-                sheet[SOMATIC_PEPTIDES_MUT_POS + str(current_row)] = record[1]
-                sheet[SOMATIC_PEPTIDES_MUT_PEP + str(current_row)] = record[2]
-
-                current_row += 1
-
-            record_ctr += 1
-
-        print("Wrote '%d' records to sheet '%s'" % (record_ctr, sheet_name))
-
+        writer.writeSheet()
 
