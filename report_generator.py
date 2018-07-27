@@ -12,10 +12,18 @@ from summarysheet.file.parser import Parser as ssp
 
 from merck.immunoselect.matched.report import ReportGenerator as mimRepGen
 from merck.immunoselect.unmatched.report import ReportGenerator as miumRepGen
+
 from victor.immunoselect.matched.report import ReportGenerator as vimRepGen
 from victor.immunoselect.unmatched.report import ReportGenerator as viumRepGen
+
 from immunoselect.matched.report import ReportGenerator as imRepGen
 from immunoselect.unmatched.report import ReportGenerator as iumRepGen
+
+from cancerxome.matched.report import ReportGenerator as cxmRepGen
+from cancerxome.unmatched.report import ReportGenerator as cxumRepGen
+
+from victor.cancerxome.matched.report import ReportGenerator as vcxmRepGen
+from victor.cancerxome.unmatched.report import ReportGenerator as vcxumRepGen
 
 
 @click.command()
@@ -74,6 +82,23 @@ def main(trigger_file, verbose, outdir):
     elif report_type == 'ImmunoSELECT Unmatched' or report_type == 'ImmunoSELECT_Unmatched':
 
         repgen = iumRepGen(trigger_file, outdir)
+
+    elif report_type == 'CancerXOME Matched' or report_type == 'CancerXOME_Matched':
+
+        repgen = cxmRepGen(trigger_file, outdir)
+
+    elif report_type == 'CancerXOME Unmatched' or report_type == 'CancerXOME_Unmatched':
+
+        repgen = cxumRepGen(trigger_file, outdir)
+
+    elif report_type == 'Victor CancerXOME Matched' or report_type == 'Victor_CancerXOME_Matched':
+
+        repgen = vcxmRepGen(trigger_file, outdir)
+
+    elif report_type == 'Victor CancerXOME Unmatched' or report_type == 'Victor_CancerXOME_Unmatched':
+
+        repgen = vcxumRepGen(trigger_file, outdir)
+
 
     else:
         print("report type '%s' is not supported" % report_type)
