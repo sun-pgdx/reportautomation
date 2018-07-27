@@ -233,7 +233,6 @@ class ReportGenerator(pgdx.report.ReportGenerator):
 
         writer.writeSheet()
 
-
     def _write_copy_number_sheet(self):
         """
 
@@ -253,7 +252,6 @@ class ReportGenerator(pgdx.report.ReportGenerator):
         writer = ncsw(self._xfile, parser, self._case_id, self._date)
 
         writer.writeSheet()
-
 
     def _write_somatic_peptides_sheet(self):
         """
