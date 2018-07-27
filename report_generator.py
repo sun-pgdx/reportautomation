@@ -14,6 +14,9 @@ from merck.immunoselect.matched.report import ReportGenerator as mimRepGen
 from merck.immunoselect.unmatched.report import ReportGenerator as miumRepGen
 from victor.immunoselect.matched.report import ReportGenerator as vimRepGen
 from victor.immunoselect.unmatched.report import ReportGenerator as viumRepGen
+from immunoselect.matched.report import ReportGenerator as imRepGen
+from immunoselect.unmatched.report import ReportGenerator as iumRepGen
+
 
 @click.command()
 @click.argument('trigger_file')
@@ -63,6 +66,14 @@ def main(trigger_file, verbose, outdir):
     elif report_type == 'Victor ImmunoSELECT Unmatched' or report_type == 'Victor_ImmunoSELECT_Unmatched':
 
         repgen = viumRepGen(trigger_file, outdir)
+
+    elif report_type == 'ImmunoSELECT Matched' or report_type == 'ImmunoSELECT_Matched':
+
+        repgen = imRepGen(trigger_file, outdir)
+
+    elif report_type == 'ImmunoSELECT Unmatched' or report_type == 'ImmunoSELECT_Unmatched':
+
+        repgen = iumRepGen(trigger_file, outdir)
 
     else:
         print("report type '%s' is not supported" % report_type)
